@@ -1,0 +1,42 @@
+asyncFuncTimeout: 1000
+output: default
+description: Parse and Enrich Weblogs
+functions:
+  - id: regex_extract
+    filter: "true"
+    disabled: null
+    conf:
+      regex: /^(?<clientIP>[\d.]+) (?<__ident>\S+) (?<httpBasicUser>\S+)
+        (?<__timestamp>\[[^\]]+\]) "(?<method>\w+)
+        (?<uri>[^?]+)\??(?<__queryString>[^ ]+)? HTTP (?<httpVersion>[0-9.]+)"
+        (?<status>\d{3}) (?<bytes>\d+) "(?<referrer>[^"]+)"
+        "(?<userAgent>[^"]+)" (?<timeTaken>\d+)$/gm
+      source: _raw
+  - id: demo_querystring2fields
+    filter: "true"
+    disabled: false
+    conf:
+      {}
+  - id: numerify
+    filter: "true"
+    disabled: false
+    conf:
+      ignoreFields:
+        []
+  - id: demo_sessionLookup
+    filter: "true"
+    disabled: false
+    conf:
+      host: localhost
+      port: "6379"
+      password: pass
+      fromField: JSESSIONID
+      toField: userName
+  - id: demo_restLookup
+    filter: "true"
+    disabled: null
+    conf:
+      urlExpression: >-
+        `http://apiserver:3000/users/${userName}`
+      eventField: customer
+      maxConcurrentRequests: 1

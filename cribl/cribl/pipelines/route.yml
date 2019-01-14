@@ -1,0 +1,22 @@
+id: default
+routes:
+  - id: JNcRJC
+    name: parse-and-enrich
+    final: true
+    disabled: false
+    pipeline: parse-and-enrich
+    description: ""
+    clones:
+      []
+    filter: "true"
+    output: default
+  - id: BDJ7WU
+    name: default
+    final: true
+    disabled: false
+    pipeline: devnull
+    description: ""
+    clones:
+      []
+    filter: "true"
+    output: default
