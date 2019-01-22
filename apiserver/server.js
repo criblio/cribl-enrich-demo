@@ -23,21 +23,24 @@ const morgan = require('morgan');
 const app = express();
 const port = 3000;
 
-app.use(morgan('short'));
+// app.use(morgan('short'));
 
 app.get('/users/:userName', (req, res) => {
   if (!req.params.userName) {
     res.status(500).send('userName param missing');
+    return;
   }
 
   const cust = customers[req.params.userName];
 
   if (!cust) {
     res.status(404).send(`${req.params.userName} not found`);
+    return;
   }
 
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(cust));
+  return;
 });
 
 app.listen(port, () => console.log(`api server listening on port ${port}!`));

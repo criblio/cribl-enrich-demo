@@ -53,13 +53,11 @@ exports.process = (event) => {
         } catch (e) {
         }
         event[conf.eventField] = d;
-        requestCount--;
         resolve(event);
       });
 
     }).on("error", (err) => {
       dLogger.error(`Error in REST Lookup: ${err.message}`);
-      requestCount--;
       reject(`Error: ${err.message}`);
     });
   });

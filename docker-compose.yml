@@ -17,3 +17,8 @@ services:
       context: apiserver
     volumes:
       - "./data:/opt/data"
+  redis:
+    build:
+      context: redis
+    volumes:
+      - "./data:/data"

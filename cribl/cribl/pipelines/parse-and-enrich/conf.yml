@@ -23,18 +23,18 @@ functions:
     conf:
       ignoreFields:
         []
-  - id: demo_sessionLookup
+  - id: demo_redisLookup
     filter: "true"
     disabled: false
     conf:
-      host: localhost
+      host: redis
       port: "6379"
-      password: pass
       fromField: JSESSIONID
       toField: userName
+      secure: false
   - id: demo_restLookup
     filter: "true"
-    disabled: null
+    disabled: false
     conf:
       urlExpression: >-
         `http://apiserver:3000/users/${userName}`
