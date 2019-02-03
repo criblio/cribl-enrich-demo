@@ -11,7 +11,7 @@ const { Expression } = C.expr;
 
 let urlExpression;
 let http;
-let requestCount = 0;
+let agent;
 
 exports.init = (opt) => {
   conf = (opt || {}).conf || {};
@@ -21,10 +21,13 @@ exports.init = (opt) => {
   const parsedurl = new url.URL(u);
   const proto = parsedurl.protocol.substr(0, parsedurl.protocol.length - 1);
   // Avoid dynamic imports
+  const agentOpts = { keepAlive: true, maxSockets: conf.maxSockets || 10 };
   if (proto === 'http') {
     http = require('http');
+    agent = http.Agent(agentOpts);
   } else {
     http = require('https');
+    agent = https.Agent(agentOpts);
   }
 
   if (conf.headers && Array.isArray(conf.headers)) {
@@ -39,7 +42,7 @@ exports.process = (event) => {
   // dLogger.info(`Executing REST Lookup against ${u}`);
 
   return new Promise((resolve, reject) => {
-    http.get(u, (resp) => {
+    http.get(u, { agent }, (resp) => {
       let data = '';
 
       resp.on('data', (chunk) => {
@@ -56,7 +59,7 @@ exports.process = (event) => {
         resolve(event);
       });
 
-    }).on("error", (err) => {
+    }).on('error', (err) => {
       dLogger.error(`Error in REST Lookup: ${err.message}`);
       reject(`Error: ${err.message}`);
     });

@@ -32,6 +32,14 @@ functions:
       fromField: JSESSIONID
       toField: userName
       secure: false
+  - id: eval
+    filter: "true"
+    disabled: true
+    conf:
+      add:
+        - name: userName
+          value: >-
+            'mwilde'
   - id: demo_restLookup
     filter: "true"
     disabled: false
@@ -40,3 +48,16 @@ functions:
         `http://apiserver:3000/users/${userName}`
       eventField: customer
       maxConcurrentRequests: 1
+  - id: eval
+    filter: "true"
+    disabled: null
+    conf:
+      remove:
+        - httpBasicUser
+  - id: sampling
+    filter: "true"
+    disabled: true
+    conf:
+      rules:
+        - filter: status=='200'
+          rate: 5

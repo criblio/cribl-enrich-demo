@@ -17,6 +17,8 @@ services:
       context: apiserver
     volumes:
       - "./data:/opt/data"
+    ports:
+      - "3000:3000"
   redis:
     build:
       context: redis

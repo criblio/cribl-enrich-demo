@@ -1,0 +1,11 @@
+outputs:
+  default:
+    defaultId: tcpjson
+    type: default
+  tcpjson:
+    type: tcpjson
+    host: localhost
+    port: 10005
+    onBackpressure: drop
+    tls:
+      disabled: true
