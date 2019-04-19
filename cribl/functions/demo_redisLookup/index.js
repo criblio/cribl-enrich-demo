@@ -38,7 +38,6 @@ const redisConnect = () => {
       tls: conf.secure ? { port: conf.port, host: conf.host } : null,
       db: conf.db,
     });
-    client.unref(); // Temporary until unload() gets called from pipe
     client.on('connect', () => {
       dLogger.info(`connected to redis ${conf.host}:${conf.port}`);
       resolve();
